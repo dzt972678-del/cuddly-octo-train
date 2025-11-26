@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân - Hạng A Thành</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            border: 5px solid white;
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background-color: var(--secondary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links a.active {
+            background-color: var(--primary-color);
+        }
+        
+        section {
+            padding: 3rem 0;
+            display: none;
+        }
+        
+        section.active {
+            display: block;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .subject-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .subject-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .score-input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-danger {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: var(--light-color);
+        }
+        
+        .average-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .ai-analysis {
+            margin-top: 2rem;
+        }
+        
+        .analysis-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .good-subject {
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .average-subject {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .poor-subject {
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .improvement-tips {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+            }
+            
+            .subject-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="profile">
+                <div class="avatar">H</div>
+                <h1>Hạng A Thành</h1>
+                <p class="info">Sinh ngày: 6/1/2010 | Học sinh lớp 10</p>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Trang chủ</a></li>
+                <li><a href="#grades" class="nav-link">Quản lý điểm</a></li>
+                <li><a href="#analysis" class="nav-link">Phân tích AI</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <section id="home" class="active">
+            <h2>Giới thiệu</h2>
+            <div class="card">
+                <p>Xin chào! Tôi là Hạng A Thành, hiện đang là học sinh lớp 10. Trang web này giúp tôi theo dõi và quản lý điểm số các môn học, đồng thời nhận được đánh giá và gợi ý cải thiện từ AI.</p>
+            </div>
+            
+            <h2>Các môn học</h2>
+            <div class="subject-grid">
+                <div class="subject-card">
+                    <h3>Toán</h3>
+                    <p>Môn học về số học, đại số, hình học và giải tích</p>
+                </div>
+                <div class="subject-card">
+                    <h3>Ngữ Văn</h3>
+                    <p>Môn học về văn học, tiếng Việt và làm văn</p>
+                </div>
+                <div class="subject-card">
+                    <h3>Tiếng Anh</h3>
+                    <p>Môn học về ngôn ngữ và văn hóa Anh</p>
+                </div>
+                <div class="subject-card">
+                    <h3>Lịch Sử</h3>
+                    <p>Môn học về các sự kiện lịch sử Việt Nam và thế giới</p>
+                </div>
+                <div class="subject-card">
+                    <h3>Địa Lý</h3>
+                    <p>Môn học về địa lý tự nhiên và kinh tế xã hội</p>
+                </div>
+                <div class="subject-card">
+                    <h3>Vật Lý</h3>
+                    <p>Môn học về các hiện tượng vật lý và định luật tự nhiên</p>
+                </div>
+                <div class="subject-card">
+                    <h3>Kinh tế Pháp luật</h3>
+                    <p>Môn học về kinh tế và pháp luật cơ bản</p>
+                </div>
+                <div class="subject-card">
+                    <h3>Quốc phòng</h3>
+                    <p>Môn học về giáo dục quốc phòng và an ninh</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="grades">
+            <h2>Quản lý điểm số</h2>
+            
+            <div class="card">
+                <h3>Nhập điểm các môn học</h3>
+                <form id="grade-form">
+                    <div class="subject-grid">
+                        <div class="subject-card">
+                            <h3>Toán</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="math-score" placeholder="Nhập điểm Toán">
+                        </div>
+                        <div class="subject-card">
+                            <h3>Ngữ Văn</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="literature-score" placeholder="Nhập điểm Văn">
+                        </div>
+                        <div class="subject-card">
+                            <h3>Tiếng Anh</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="english-score" placeholder="Nhập điểm Anh">
+                        </div>
+                        <div class="subject-card">
+                            <h3>Lịch Sử</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="history-score" placeholder="Nhập điểm Sử">
+                        </div>
+                        <div class="subject-card">
+                            <h3>Địa Lý</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="geography-score" placeholder="Nhập điểm Địa">
+                        </div>
+                        <div class="subject-card">
+                            <h3>Vật Lý</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="physics-score" placeholder="Nhập điểm Lý">
+                        </div>
+                        <div class="subject-card">
+                            <h3>Kinh tế Pháp luật</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="economics-score" placeholder="Nhập điểm KTPL">
+                        </div>
+                        <div class="subject-card">
+                            <h3>Quốc phòng</h3>
+                            <input type="number" min="0" max="10" step="0.1" class="score-input" id="defense-score" placeholder="Nhập điểm QP">
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button type="submit" class="btn">Lưu điểm và tính trung bình</button>
+                        <button type="button" class="btn btn-danger" id="reset-btn">Xóa điểm</button>
+                    </div>
+                </form>
+                
+                <div class="result" id="result-section" style="display: none;">
+                    <h3>Kết quả điểm trung bình</h3>
+                    <div class="average-score" id="average-score">0.0</div>
+                    
+                    <h3>Điểm chi tiết</h3>
+                    <div id="grade-details"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="analysis">
+            <h2>Phân tích AI</h2>
+            
+            <div class="card">
+                <p>Dựa trên điểm số của bạn, AI sẽ đánh giá khả năng học tập và đưa ra gợi ý cải thiện cho các môn học.</p>
+                
+                <div style="text-align: center; margin: 1.5rem 0;">
+                    <button class="btn" id="analyze-btn">Phân tích điểm số</button>
+                </div>
+                
+                <div id="ai-analysis-result" style="display: none;">
+                    <h3>Đánh giá tổng quan</h3>
+                    <div class="analysis-card" id="overall-analysis">
+                        <!-- Nội dung phân tích tổng quan sẽ được thêm vào đây -->
+                    </div>
+                    
+                    <h3>Phân tích từng môn học</h3>
+                    <div id="subject-analysis">
+                        <!-- Nội dung phân tích từng môn sẽ được thêm vào đây -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Trang web cá nhân của Hạng A Thành</p>
+            <p>© 2023 - Học sinh lớp 10</p>
+        </div>
+    </footer>
+
+    <script>
+        // Chuyển đổi giữa các phần
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Xóa lớp active từ tất cả các liên kết
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                
+                // Thêm lớp active cho liên kết được nhấp
+                this.classList.add('active');
+                
+                // Ẩn tất cả các phần
+                document.querySelectorAll('section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Hiển thị phần được chọn
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // Xử lý form nhập điểm
+        const gradeForm = document.getElementById('grade-form');
+        const resetBtn = document.getElementById('reset-btn');
+        const resultSection = document.getElementById('result-section');
+        const averageScoreElement = document.getElementById('average-score');
+        const gradeDetailsElement = document.getElementById('grade-details');
+        
+        gradeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Lấy điểm từ các input
+            const mathScore = parseFloat(document.getElementById('math-score').value) || 0;
+            const literatureScore = parseFloat(document.getElementById('literature-score').value) || 0;
+            const englishScore = parseFloat(document.getElementById('english-score').value) || 0;
+            const historyScore = parseFloat(document.getElementById('history-score').value) || 0;
+            const geographyScore = parseFloat(document.getElementById('geography-score').value) || 0;
+            const physicsScore = parseFloat(document.getElementById('physics-score').value) || 0;
+            const economicsScore = parseFloat(document.getElementById('economics-score').value) || 0;
+            const defenseScore = parseFloat(document.getElementById('defense-score').value) || 0;
+            
+            // Tính điểm trung bình
+            const scores = [mathScore, literatureScore, englishScore, historyScore, 
+                           geographyScore, physicsScore, economicsScore, defenseScore];
+            const validScores = scores.filter(score => score > 0);
+            const averageScore = validScores.length > 0 ? 
+                (validScores.reduce((sum, score) => sum + score, 0) / validScores.length).toFixed(2) : 0;
+            
+            // Hiển thị kết quả
+            averageScoreElement.textContent = averageScore;
+            
+            // Hiển thị điểm chi tiết
+            gradeDetailsElement.innerHTML = `
+                <div class="subject-grid">
+                    <div class="subject-card ${getScoreClass(mathScore)}">
+                        <h3>Toán</h3>
+                        <p>Điểm: ${mathScore > 0 ? mathScore : 'Chưa nhập'}</p>
+                    </div>
+                    <div class="subject-card ${getScoreClass(literatureScore)}">
+                        <h3>Ngữ Văn</h3>
+                        <p>Điểm: ${literatureScore > 0 ? literatureScore : 'Chưa nhập'}</p>
+                    </div>
+                    <div class="subject-card ${getScoreClass(englishScore)}">
+                        <h3>Tiếng Anh</h3>
+                        <p>Điểm: ${englishScore > 0 ? englishScore : 'Chưa nhập'}</p>
+                    </div>
+                    <div class="subject-card ${getScoreClass(historyScore)}">
+                        <h3>Lịch Sử</h3>
+                        <p>Điểm: ${historyScore > 0 ? historyScore : 'Chưa nhập'}</p>
+                    </div>
+                    <div class="subject-card ${getScoreClass(geographyScore)}">
+                        <h3>Địa Lý</h3>
+                        <p>Điểm: ${geographyScore > 0 ? geographyScore : 'Chưa nhập'}</p>
+                    </div>
+                    <div class="subject-card ${getScoreClass(physicsScore)}">
+                        <h3>Vật Lý</h3>
+                        <p>Điểm: ${physicsScore > 0 ? physicsScore : 'Chưa nhập'}</p>
+                    </div>
+                    <div class="subject-card ${getScoreClass(economicsScore)}">
+                        <h3>Kinh tế Pháp luật</h3>
+                        <p>Điểm: ${economicsScore > 0 ? economicsScore : 'Chưa nhập'}</p>
+                    </div>
+                    <div class="subject-card ${getScoreClass(defenseScore)}">
+                        <h3>Quốc phòng</h3>
+                        <p>Điểm: ${defenseScore > 0 ? defenseScore : 'Chưa nhập'}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Hiển thị phần kết quả
+            resultSection.style.display = 'block';
+            
+            // Lưu điểm vào localStorage
+            const gradeData = {
+                math: mathScore,
+                literature: literatureScore,
+                english: englishScore,
+                history: historyScore,
+                geography: geographyScore,
+                physics: physicsScore,
+                economics: economicsScore,
+                defense: defenseScore,
+                average: averageScore,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('studentGrades', JSON.stringify(gradeData));
+        });
+        
+        // Hàm xác định lớp CSS dựa trên điểm số
+        function getScoreClass(score) {
+            if (score === 0) return '';
+            if (score >= 8) return 'good-subject';
+            if (score >= 6.5) return 'average-subject';
+            return 'poor-subject';
+        }
+        
+        // Xử lý nút xóa điểm
+        resetBtn.addEventListener('click', function() {
+            // Xóa tất cả các input
+            document.querySelectorAll('.score-input').forEach(input => {
+                input.value = '';
+            });
+            
+            // Ẩn phần kết quả
+            resultSection.style.display = 'none';
+            
+            // Xóa dữ liệu trong localStorage
+            localStorage.removeItem('studentGrades');
+        });
+        
+        // Xử lý phân tích AI
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const aiAnalysisResult = document.getElementById('ai-analysis-result');
+        const overallAnalysisElement = docu
